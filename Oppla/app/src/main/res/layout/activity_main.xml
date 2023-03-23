@@ -20,13 +20,12 @@
             android:id="@+id/main_bottomnavigation_bnb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemBackground="@color/black"
+            app:itemBackground="@color/white"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navi" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
