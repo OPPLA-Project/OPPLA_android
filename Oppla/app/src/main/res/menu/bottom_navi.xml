@@ -4,25 +4,25 @@
     <item
         android:id="@+id/homeBaseFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Home"/>
+        android:icon="@drawable/bnb_home"
+        android:title="홈"/>
 
     <item
         android:id="@+id/favoriteBaseFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Favorite"/>
+        android:icon="@drawable/bnb_question"
+        android:title="질문"/>
 
     <item
         android:id="@+id/locationFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Location"/>
+        android:icon="@drawable/bnb_answer"
+        android:title="답변"/>
 
     <item
         android:id="@+id/chatFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Chat"/>
+        android:icon="@drawable/bnb_mypage"
+        android:title="마이페이지"/>
 
 </menu>

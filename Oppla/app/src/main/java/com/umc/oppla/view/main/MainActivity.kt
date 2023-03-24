@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseActivity
 import com.umc.oppla.databinding.ActivityMainBinding
-import com.umc.oppla.view.main.answer.AnswerFragment
+import com.umc.oppla.view.main.answer.AnswerBlankFragment
 import com.umc.oppla.view.main.home.HomeBlankFragment
-import com.umc.oppla.view.main.mypage.MypageFragment
-import com.umc.oppla.view.main.question.QuestionFragment
+import com.umc.oppla.view.main.mypage.MypageBlankFragment
+import com.umc.oppla.view.main.question.QuestionBlankFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var currentFragmenttag: String
@@ -27,6 +27,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun init() {
+        // 네비게이션 버튼의 테마색으로 변하는 것을 막기 위해서
+        binding.mainBottomnavigationBnb.itemIconTintList = null
 
         // 네비게이션 버튼 클릭시 프래그먼트 전환
         binding.mainBottomnavigationBnb.setOnItemSelectedListener {
@@ -35,13 +37,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     changeFragment("homeblank", HomeBlankFragment())
                 }
                 R.id.favoriteBaseFragment -> { // 두 번째 fragment
-                    changeFragment("question", QuestionFragment())
+                    changeFragment("questionblank", QuestionBlankFragment())
                 }
                 R.id.locationFragment -> { // 세 번째 fragment
-                    changeFragment("answer", AnswerFragment())
+                    changeFragment("answerblank", AnswerBlankFragment())
                 }
                 R.id.chatFragment -> { // 세 번째 fragment
-                    changeFragment("mypage", MypageFragment())
+                    changeFragment("mypageblank", MypageBlankFragment())
                 }
             }
             true

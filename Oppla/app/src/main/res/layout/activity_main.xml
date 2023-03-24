@@ -18,10 +18,12 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/main_bottomnavigation_bnb"
+            android:background="@drawable/bnb_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemBackground="@color/white"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="labeled"
+            app:itemTextColor="#434343"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
