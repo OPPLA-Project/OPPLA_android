@@ -1,21 +1,21 @@
 package com.umc.oppla.view.main.home
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.umc.oppla.R
+import com.umc.oppla.base.BaseFragment
+import com.umc.oppla.databinding.FragmentHomeBlankBinding
+import com.umc.oppla.view.main.home.map.MapFragment
 
 
-class HomeBlankFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_blank, container, false)
+class HomeBlankFragment : BaseFragment<FragmentHomeBlankBinding>(R.layout.fragment_home_blank) {
+    override fun savedatainit() {
+        // 초기 화면
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.homeblank_layout, MapFragment(), "map")
+            .commitAllowingStateLoss()
     }
 
+    override fun init() {
+
+    }
 }
