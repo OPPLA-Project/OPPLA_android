@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -31,12 +33,14 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        viewBinding true
         dataBinding true
     }
 }
 
 dependencies {
 
+    // workmanager
     implementation "androidx.work:work-runtime-ktx:2.7.1"
 
     // 코루틴
