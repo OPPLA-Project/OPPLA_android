@@ -95,18 +95,19 @@
                 android:background="#EEF1F5" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/qustiondetail_textview_questioncontent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문질문" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/qustiondetail_textview_detail"
+                android:id="@+id/qustiondetail_textview_doanswer"
                 android:layout_width="match_parent"
                 android:layout_height="54.86dp"
                 android:layout_marginTop="28dp"
                 android:background="@drawable/background_button_doanswer"
                 android:gravity="center"
-                android:text="질문상세보기"
+                android:text="답변하기"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
