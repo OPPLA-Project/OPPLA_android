@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="질문 마감까지"
+                android:textColor="#44474D"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/item_questionlist_textview_remaintime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:background="@drawable/background_text_remaintime"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="000 분"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_questionlist_imageview_setting"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="7dp"
+            android:src="@drawable/icon_threepoint_setting" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_questionlist_textview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제목제목제목제목제목"
+        android:textColor="#313336"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_questionlist_textview_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" · 장소장소장소"
+        android:textColor="#80858D"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_questionlist_textview_detail"
+        android:layout_width="match_parent"
+        android:layout_height="54.86dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/background_button_questiondetail"
+        android:gravity="center"
+        android:text="질문상세보기"
+        android:textColor="#4E8FFF"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18.4dp"
+        android:background="#EEF1F5" />
+
+</LinearLayout>
