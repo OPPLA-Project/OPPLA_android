@@ -2,19 +2,29 @@ package com.umc.oppla.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 @SuppressLint("MissingPermission")
-class LocationUpdateWorker(appContext: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(appContext, workerParams) {
+class LocationUpdateWorker(Context: Context, workerParams: WorkerParameters) :
+    CoroutineWorker(Context, workerParams) {
 
-    private val mContext = appContext
+    private val context = Context
     //위치 가져올때 필요
     private val locationClient: FusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(mContext)
+        LocationServices.getFusedLocationProviderClient(context)
+    }
+
+    companion object{
+        private var _MyLocation : MutableLiveData<Location> = MutableLiveData()
+        val MyLocation: LiveData<Location>
+            get() = _MyLocation
+
     }
 
     override suspend fun doWork(): Result {
@@ -32,9 +42,9 @@ class LocationUpdateWorker(appContext: Context, workerParams: WorkerParameters) 
             locationClient.lastLocation.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     task.result?.let { aLocation ->
-                        val fromLat = aLocation.latitude
-                        val fromLng = aLocation.longitude
-                        Log.d("whatisthis", "$fromLat $fromLng")
+                        _MyLocation.value = aLocation
+                        // api 호출(갱신)
+                        Log.d("whatisthis",aLocation.toString())
                     }
                 } else {
                     Log.d("whatisthis", "task 실패")
@@ -46,4 +56,9 @@ class LocationUpdateWorker(appContext: Context, workerParams: WorkerParameters) 
         }
         return Result.success()
     }
+
+//    fun findLastLocation():Pair<Double,Double>?{
+//        return if(MyLocation!=null) MyLocation
+//        else null
+//    }
 }

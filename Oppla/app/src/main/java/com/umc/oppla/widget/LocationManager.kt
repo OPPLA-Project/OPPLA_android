@@ -3,8 +3,11 @@ package com.umc.oppla.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.IntentSender
+import android.location.Location
 import android.os.Looper
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 
@@ -14,12 +17,18 @@ class LocationManager(
 ) : LocationCallback() {
 
     private val context = Context
+    //위치 가져올때 필요
+    private val locationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(context)
+    }
+
     private lateinit var requestInApp: LocationRequest
-    private var locationClient: FusedLocationProviderClient
+
+    private var _MyLocation : MutableLiveData<Location> = MutableLiveData()
+    val MyLocation: LiveData<Location>
+        get() = _MyLocation
 
     init {
-        // getting the location client
-        locationClient = LocationServices.getFusedLocationProviderClient(context)
         initLocationClientInApp()
     }
 
@@ -27,7 +36,7 @@ class LocationManager(
     private fun initLocationClientInApp() {
         requestInApp =
             LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, timeInterval).apply {
-                setMinUpdateDistanceMeters(minimalDistance) // 위치를 업데이트할 때 요구되는 최소한의 거리 변화를 설정함
+//                setMinUpdateDistanceMeters(minimalDistance) // 위치를 업데이트할 때 요구되는 최소한의 거리 변화를 설정함
                 setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL) // 위치 세분성 : 권한 수준과 일치함
                 setWaitForAccurateLocation(true) // PRIORITY_HIGH_ACCURACY일 경우 정확한 위치가 올 때까지 지연될 수 있음
             }.build()
@@ -78,6 +87,9 @@ class LocationManager(
 
     override fun onLocationResult(result: LocationResult) { // 위치 정보 반환 받았을 경우
         super.onLocationResult(result)
+        val lastlocation = result.lastLocation
+        if(lastlocation != null) _MyLocation.value = lastlocation
         Log.d("whatisthis", result.toString())
     }
+
 }
