@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,9 +19,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.work.*
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseActivity
 import com.umc.oppla.databinding.ActivityMainBinding
@@ -28,6 +29,7 @@ import com.umc.oppla.view.main.answer.AnswerBlankFragment
 import com.umc.oppla.view.main.home.HomeBlankFragment
 import com.umc.oppla.view.main.mypage.MypageBlankFragment
 import com.umc.oppla.view.main.question.QuestionBlankFragment
+import com.umc.oppla.viewmodel.LocationViewModel
 import com.umc.oppla.widget.LocationManager
 import com.umc.oppla.widget.LocationUpdateWorker
 import com.umc.oppla.widget.SharedPreferencesManager
@@ -40,6 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             Manifest.permission.ACCESS_COARSE_LOCATION,  // 도시 블록 단위
             Manifest.permission.ACCESS_FINE_LOCATION  // 더 정밀한 단위
         )
+
         @RequiresApi(Build.VERSION_CODES.Q)
         private val REQUIRED_PERMISSION_BACKGROUND = Manifest.permission.ACCESS_BACKGROUND_LOCATION
     }
@@ -47,6 +50,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var sharedPreferencesmanager: SharedPreferencesManager
     private lateinit var currentFragmenttag: String
     private lateinit var locationManager: LocationManager
+
+    lateinit var locationViewModel: LocationViewModel
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -62,7 +67,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun init() {
-//        initLocationClient()
+        locationViewModel = ViewModelProvider(this@MainActivity).get(LocationViewModel::class.java)
         sharedPreferencesmanager = SharedPreferencesManager(this)
         // 권한 묻기
         if (!isAllPermissionsGranted()) { // 위치 권한 없을 때(foreground이므로 background 제외)
@@ -124,8 +129,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         if (sharedPreferencesmanager.getPermission(KEY_PERMISSION_DATA)) { // background 허용 -> 앱을 껐을 때도 작동
             checkBackgroundPermission()
         } else { // background x -> 앱을 켰을 때만
-            locationManager = LocationManager(this, 1200000L, 1f)
+            locationManager = LocationManager(this, 1200000, 1f) // 20분마다
             locationManager.startLocationTracking()
+            locationManager.MyLocation.observe(this, Observer {
+                if (it != null) {
+                    Log.d("whatisthis", "데이터 갱신됨 $it")
+                    locationViewModel.getMyLocation(it)
+                }
+            })
         }
     }
 
@@ -167,7 +178,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     // 백그라운드 권한이 필요한 이유를 설명할 dialog
     private fun permissionDialog(context: Context) {
         var builder = AlertDialog.Builder(context)
-        builder.setTitle("앱이 꺼졌을 때 질문을 받기 위해서 위치 권한을 항상 허용으로 설정해주세요.")
+        builder.setTitle("앱이 꺼졌을 때도 질문을 받기 위해선 위치 권한을 항상 허용으로 해야 합니다.")
         var listener = DialogInterface.OnClickListener { _, p1 ->
             when (p1) {
                 DialogInterface.BUTTON_POSITIVE -> {
@@ -219,14 +230,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         when {
             permission -> { // background 허용
                 doWorkWithPeriodic() // 위치 정보 얻어오기
-                sharedPreferencesmanager.setPermission(KEY_PERMISSION_DATA, true) // background 허용했음을 저장
+                sharedPreferencesmanager.setPermission(
+                    KEY_PERMISSION_DATA,
+                    true
+                ) // background 허용했음을 저장
             }
             shouldShowRequestPermissionRationale(REQUIRED_PERMISSION_BACKGROUND) -> {
                 sharedPreferencesmanager.setPermission(KEY_PERMISSION_DATA, false)
-                Toast.makeText(this, "앱을 껐을 때도 질문을 받을려면 권한이 필요합니다.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "앱이 꺼졌을 때도 질문을 받을려면 권한이 필요합니다.", Toast.LENGTH_LONG)
                     .show()
-                // 권한이 필요한 이유 설명 후, 한번 더 권한 물어보기
-                return@registerForActivityResult
+//                // 권한이 필요한 이유 설명 후, 한번 더 권한 물어보기
+//                return@registerForActivityResult
             }
             else -> {
                 // 세팅으로 넘기기(무조건 필요한 경우에만)
@@ -241,10 +255,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     // 20분 간격으로 위치 정보를 얻어온다 (background에서도)
     private fun doWorkWithPeriodic() {
         Log.d("whatisthis", "worker 시작함수 진입")
+
         val workRequest =
-            PeriodicWorkRequestBuilder<LocationUpdateWorker>(20, TimeUnit.MINUTES).build()
+            PeriodicWorkRequestBuilder<LocationUpdateWorker>(15, TimeUnit.MINUTES).build() // 20분마다
+
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork("work", ExistingPeriodicWorkPolicy.REPLACE, workRequest)
+
+        LocationUpdateWorker.MyLocation.observe(this, Observer {
+            if(it!=null){
+                Log.d("whatisthis","백그라운드 데이터 갱신됨 $it")
+
+                locationViewModel.getMyLocation(it)
+            }
+        })
     }
 
     // 설정 페이지로 이동시켜줌

@@ -107,10 +107,7 @@
                 android:layout_marginTop="28dp"
                 android:background="@drawable/background_button_doanswer"
                 android:gravity="center"
-                android:text="답변하기"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
+                android:text="답변하기" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
