@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    // circleimageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // kakao mapview
     implementation files('libs/libDaumMapAndroid.jar')
