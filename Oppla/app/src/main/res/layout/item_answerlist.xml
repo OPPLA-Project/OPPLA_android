@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_answerlist_textview_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginStart="16dp"
+        android:text="질문 제목"
+        android:textColor="#313336"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/item_answerlist_imageview_option"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_answerlist_imageview_option"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="7dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/icon_threepoint_setting"
+        app:layout_constraintBottom_toBottomOf="@id/item_answerlist_textview_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_answerlist_textview_title" />
+
+    <LinearLayout
+        android:id="@+id/item_answerlist_innerlayout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_button_questiondetail"
+        android:orientation="horizontal"
+        android:paddingVertical="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_answerlist_textview_title">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_answerlist_textview_questionstate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#D85050"
+            android:text="진행중" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#CAD0DA" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_answerlist_textview_answerercount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="#313336"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="답변자 00명" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#CAD0DA" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_answerlist_textview_questionagain"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="#80858D"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:text="재질문하기" />
+    </LinearLayout>
+
+    <View
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="24dp"
+        android:background="#EEF1F5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_answerlist_innerlayout_buttons" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

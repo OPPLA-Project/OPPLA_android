@@ -14,6 +14,7 @@ import com.umc.oppla.base.BaseFragment
 import com.umc.oppla.data.MarkerDataTemp
 import com.umc.oppla.databinding.FragmentMapBinding
 import com.umc.oppla.view.main.MainActivity
+import com.umc.oppla.view.main.home.doquestion.DoquestionFragment
 import com.umc.oppla.viewmodel.LocationViewModel
 import net.daum.mf.map.api.MapCircle
 import net.daum.mf.map.api.MapPOIItem
@@ -35,6 +36,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
     private val NowMarkers = mutableListOf<MapPOIItem>()
 
     override fun init() {
+        binding.mapTextviewDoquestion.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .add(R.id.homeblank_layout, DoquestionFragment(), "doqeustion")
+                .addToBackStack("map")
+                .commitAllowingStateLoss()
+        }
+
         binding.apply {
             mapMapview.setMapViewEventListener(this@MapFragment)
             mapMapview.setPOIItemEventListener(this@MapFragment)
