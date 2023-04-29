@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.main.answer.answerlist.AnswerListFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="답변 리스트" />
+        android:orientation="vertical"
+        tools:context=".view.main.answer.answerlist.AnswerListFragment">
 
-</FrameLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/answerlist_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/answerlist_textview_sort"
+            android:layout_width="56dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="4dp"
+            android:textColor="#313336"
+            android:textSize="14sp"
+            android:layout_marginBottom="2dp"
+            android:layout_gravity="end"
+            android:text="정렬" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answerlist_recycler_answerlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</layout>

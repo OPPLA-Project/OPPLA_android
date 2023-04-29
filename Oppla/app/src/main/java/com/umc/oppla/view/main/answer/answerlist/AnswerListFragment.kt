@@ -1,60 +1,61 @@
 package com.umc.oppla.view.main.answer.answerlist
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.oppla.R
+import com.umc.oppla.base.BaseFragment
+import com.umc.oppla.data.AnswerListDataTemp
+import com.umc.oppla.databinding.FragmentAnswerListBinding
+import com.umc.oppla.view.main.answer.answererlist.AnswererListFragment
+import com.umc.oppla.view.main.home.doquestion.DoquestionFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AnswerListFragment : BaseFragment<FragmentAnswerListBinding>(R.layout.fragment_answer_list) {
+    private lateinit var answerListAdapter: AnswerListAdapter
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AnswerListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AnswerListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override fun init() {
+        initRecyclerView()
+        binding.answerlistTextviewSort.setOnClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_answer_list, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AnswerListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AnswerListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun initRecyclerView() {
+        answerListAdapter =
+            AnswerListAdapter(object : AnswerListAdapter.onItemAnswerListClickInterface {
+                override fun onItemTitleClick(id: Int, position: Int) {
+                    parentFragmentManager
+                        .beginTransaction()
+                        .add(R.id.answerblank_layout, DoquestionFragment(), "doqeustion")
+                        .addToBackStack("answerlist")
+                        .commitAllowingStateLoss()
                 }
-            }
+
+                override fun onItemQuestionAgainClick(id: Int, position: Int) {
+                    // 해당 데이터 상태 변경 api 호출
+                }
+
+                override fun onItemAnswererCountClick(id: Int, position: Int) {
+                    parentFragmentManager
+                        .beginTransaction()
+                        .add(R.id.answerblank_layout, AnswererListFragment(), "answererlist")
+                        .addToBackStack("answerlist")
+                        .commitAllowingStateLoss()
+                }
+
+            })
+
+        binding.answerlistRecyclerAnswerlist.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            adapter = answerListAdapter
+        }
+
+        val data = mutableListOf<AnswerListDataTemp>()
+        data.add(AnswerListDataTemp(1, 1, "제목1", 2))
+        data.add(AnswerListDataTemp(2, 1, "제목2", 0))
+        data.add(AnswerListDataTemp(3, 0, "제목3", 1))
+        data.add(AnswerListDataTemp(4, 0, "제목4", 5))
+        data.add(AnswerListDataTemp(5, 1, "제목5~~~", 0))
+        data.add(AnswerListDataTemp(6, 0, "제목6~~~", 0))
+        data.add(AnswerListDataTemp(7, 1, "제목7~~~", 2))
+
+        answerListAdapter.submitList(data)
     }
 }
