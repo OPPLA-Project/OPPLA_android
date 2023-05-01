@@ -4,12 +4,14 @@ import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -22,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
+import com.kakao.util.maps.helper.Utility
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseActivity
 import com.umc.oppla.databinding.ActivityMainBinding
@@ -30,10 +33,13 @@ import com.umc.oppla.view.main.home.HomeBlankFragment
 import com.umc.oppla.view.main.mypage.MypageBlankFragment
 import com.umc.oppla.view.main.question.QuestionBlankFragment
 import com.umc.oppla.viewmodel.LocationViewModel
+import com.umc.oppla.viewmodel.SearchViewModel
 import com.umc.oppla.widget.LocationManager
 import com.umc.oppla.widget.LocationUpdateWorker
 import com.umc.oppla.widget.SharedPreferencesManager
 import com.umc.oppla.widget.utils.Utils.KEY_PERMISSION_DATA
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -52,6 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var locationManager: LocationManager
 
     lateinit var locationViewModel: LocationViewModel
+    lateinit var searchViewModel: SearchViewModel
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -66,9 +73,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         currentFragmenttag = "homeblank" // 현재 보고 있는 fragmet의 Tag
     }
 
+
     override fun init() {
         locationViewModel = ViewModelProvider(this@MainActivity).get(LocationViewModel::class.java)
+        searchViewModel = ViewModelProvider(this@MainActivity).get(SearchViewModel::class.java)
         sharedPreferencesmanager = SharedPreferencesManager(this)
+
         // 권한 묻기
         if (!isAllPermissionsGranted()) { // 위치 권한 없을 때(foreground이므로 background 제외)
             requestLocationPermission() // 처음 물어볼 때는 background도 물어보자
@@ -134,7 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             locationManager.MyLocation.observe(this, Observer {
                 if (it != null) {
                     Log.d("whatisthis", "데이터 갱신됨 $it")
-                    locationViewModel.getMyLocation(it)
+                    locationViewModel.getMyLocation(Pair(it.latitude, it.longitude))
                 }
             })
         }
@@ -266,7 +276,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             if(it!=null){
                 Log.d("whatisthis","백그라운드 데이터 갱신됨 $it")
 
-                locationViewModel.getMyLocation(it)
+                locationViewModel.getMyLocation(Pair(it.latitude, it.longitude))
             }
         })
     }

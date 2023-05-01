@@ -14,7 +14,6 @@ class QuestionListFragment :
     private lateinit var notificationAdapter: NotificationAdapter
 
     override fun init() {
-
         initRecyclerView()
     }
 

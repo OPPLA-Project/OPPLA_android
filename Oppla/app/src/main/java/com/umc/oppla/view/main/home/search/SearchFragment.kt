@@ -1,60 +1,62 @@
 package com.umc.oppla.view.main.home.search
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.Observer
 import com.umc.oppla.R
+import com.umc.oppla.base.BaseFragment
+import com.umc.oppla.data.remote.MapService
+import com.umc.oppla.data.remote.model.ResultSearchKeyword
+import com.umc.oppla.databinding.FragmentSearchBinding
+import com.umc.oppla.view.main.MainActivity
+import com.umc.oppla.view.main.home.search.history.SearchHistroyFragment
+import com.umc.oppla.view.main.home.search.result.SearchResultFragment
+import com.umc.oppla.viewmodel.SearchViewModel
+import com.umc.oppla.widget.utils.Utils.BASE_URL
+import com.umc.oppla.widget.utils.Utils.KAKAO_REST_API_KEY
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var searchViewModel: SearchViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
+    override fun init() {
+    Log.d("whatisthis",parentFragmentManager.backStackEntryCount.toString())
+        searchViewModel = (activity as MainActivity).searchViewModel
+        binding.searchvm = searchViewModel
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.search_innerlayout_result, SearchHistroyFragment(), "searchhistory")
+            .commitAllowingStateLoss()
+
+        searchViewModel.searchword_data.observe(this, Observer {
+            if (it != null) {
+                if (it.length > 0) {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(
+                            R.id.search_innerlayout_result,
+                            SearchResultFragment(),
+                            "searchresult"
+                        )
+                        .commitAllowingStateLoss()
+                } else {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(
+                            R.id.search_innerlayout_result,
+                            SearchHistroyFragment(),
+                            "searchhistory"
+                        )
+                        .commitAllowingStateLoss()
                 }
             }
+        })
     }
 }

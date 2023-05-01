@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +17,7 @@ import com.umc.oppla.data.MarkerDataTemp
 import com.umc.oppla.databinding.FragmentMapBinding
 import com.umc.oppla.view.main.MainActivity
 import com.umc.oppla.view.main.home.doquestion.DoquestionFragment
+import com.umc.oppla.view.main.home.search.SearchFragment
 import com.umc.oppla.viewmodel.LocationViewModel
 import net.daum.mf.map.api.MapCircle
 import net.daum.mf.map.api.MapPOIItem
@@ -28,6 +31,9 @@ import java.util.concurrent.Executors
 
 class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.fragment_map),
     MapViewEventListener, POIItemEventListener {
+    // 툴바 메뉴
+    private lateinit var toolbarmenu : Menu
+
     lateinit var locationViewModel: LocationViewModel
     // bottomsheet(매장 상세 정보)
     private lateinit var bottomSheetBehaviorDoanswer: BottomSheetBehavior<LinearLayout>
@@ -36,6 +42,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
     private val NowMarkers = mutableListOf<MapPOIItem>()
 
     override fun init() {
+
+        initAppbar(binding.mapToolbar, R.menu.menu_map, false, "장소 이름")
+        initAppbarItem()
+
         binding.mapTextviewDoquestion.setOnClickListener {
             parentFragmentManager
                 .beginTransaction()
@@ -50,18 +60,30 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
             initializePersistentBottomSheet()
 
             locationViewModel = (activity as MainActivity).locationViewModel
-            locationViewModel.mylocation.observe(this@MapFragment, Observer {
+            locationViewModel.searchlocation.observe(this@MapFragment, Observer {
                 if (it != null) {
-                    Log.d("whatisthis", "in map : $it")
+                    Log.d("whatisthis", "searchlocation in map : $it")
                     mapMapview.setMapCenterPoint(
                         MapPoint.mapPointWithGeoCoord(
-                            it.latitude,
-                            it.longitude
+                            it.first,
+                            it.second
+                        ), false
+                    )
+                }
+            })
+
+            locationViewModel.mylocation.observe(this@MapFragment, Observer {
+                if (it != null) {
+                    Log.d("whatisthis", "mylocation in map : $it")
+                    mapMapview.setMapCenterPoint(
+                        MapPoint.mapPointWithGeoCoord(
+                            it.first,
+                            it.second
                         ), false
                     )
 
                     val circle1 = MapCircle(
-                        mapPointWithGeoCoord(it.latitude, it.longitude),  // center
+                        mapPointWithGeoCoord(it.first, it.second),  // center
                         500,  // radius
                         Color.argb(128, 0,191,255),  // strokeColor
                         Color.argb(120, 130,200,230) // fillColor
@@ -73,7 +95,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
                     val marker = MapPOIItem()
                     marker.itemName = "Default Marker"
                     marker.tag = 0
-                    marker.mapPoint = mapPointWithGeoCoord(it.latitude, it.longitude)
+                    marker.mapPoint = mapPointWithGeoCoord(it.first, it.second)
                     marker.markerType = MapPOIItem.MarkerType.CustomImage // 기본으로 제공하는 BluePin 마커 모양.
                     marker.customImageResourceId = R.drawable.icon_marker_myquestion_noanswer
                     marker.selectedMarkerType =
@@ -224,4 +246,26 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
         })
     }
 
+    override fun initAppbarItem() {
+        toolbarmenu = baseToolbar.menu
+
+        // 검색 버튼 클릭 시
+        val toolbarsearch = toolbarmenu.findItem(R.id.map_menu_search)
+        toolbarsearch.setOnMenuItemClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .add(R.id.homeblank_layout, SearchFragment(), "search")
+                .addToBackStack("map")
+                .commitAllowingStateLoss()
+            true
+        }
+
+        // 알림 버튼 클릭 시
+        val toolbarnotification = toolbarmenu.findItem(R.id.map_menu_notification)
+        toolbarnotification.setOnMenuItemClickListener {
+
+            true
+        }
+
+    }
 }
