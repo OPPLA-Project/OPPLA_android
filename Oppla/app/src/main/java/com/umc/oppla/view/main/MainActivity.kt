@@ -144,7 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             locationManager.MyLocation.observe(this, Observer {
                 if (it != null) {
                     Log.d("whatisthis", "데이터 갱신됨 $it")
-                    locationViewModel.getMyLocation(Pair(it.latitude, it.longitude))
+                    locationViewModel.setMyLocation(Pair(it.latitude, it.longitude))
                 }
             })
         }
@@ -276,7 +276,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             if(it!=null){
                 Log.d("whatisthis","백그라운드 데이터 갱신됨 $it")
 
-                locationViewModel.getMyLocation(Pair(it.latitude, it.longitude))
+                locationViewModel.setMyLocation(Pair(it.latitude, it.longitude))
             }
         })
     }

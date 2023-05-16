@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="searchvm"
             type="com.umc.oppla.viewmodel.SearchViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

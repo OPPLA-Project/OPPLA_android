@@ -1,12 +1,12 @@
 package com.umc.oppla.view.login
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.umc.oppla.R
 
-class LoginActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+import com.umc.oppla.R
+import com.umc.oppla.base.BaseActivity
+import com.umc.oppla.databinding.ActivityLoginBinding
+
+class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
+    override fun init() {
+        TODO("Not yet implemented")
     }
 }

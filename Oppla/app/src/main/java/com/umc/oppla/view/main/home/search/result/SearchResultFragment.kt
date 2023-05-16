@@ -51,7 +51,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
                     address: String,
                     position: Int
                 ) {
-                    locationViewModel.getSearchLocation(Pair(lat,lng))
+                    locationViewModel.setSearchLocation(Pair(lat,lng))
                     parentFragment!!.parentFragmentManager.popBackStackImmediate(null,0)
                 }
             })

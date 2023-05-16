@@ -1,7 +1,7 @@
 package com.umc.oppla.base
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -18,13 +18,14 @@ abstract class BaseFragment<T : ViewDataBinding>(
 ) : Fragment() {
     private var _binding: T? = null
     protected val binding get() = _binding!!
+
     // 뒤로가기 버튼을 눌렀을 때를 위한 callback 변수
     lateinit var callback: OnBackPressedCallback
 
     // 툴바
     lateinit var baseToolbar: Toolbar
 
-    protected open fun savedatainit(){}
+    protected open fun savedatainit() {}
 
     protected abstract fun init()
 
@@ -34,7 +35,7 @@ abstract class BaseFragment<T : ViewDataBinding>(
 
     // 하단 바 숨길때
     protected fun hideBottomNavigation(bool: Boolean) {
-        if(requireActivity().findViewById<BottomNavigationView>(R.id.main_bottomnavigation_bnb)!=null){
+        if (requireActivity().findViewById<BottomNavigationView>(R.id.main_bottomnavigation_bnb) != null) {
             val bottom: BottomNavigationView =
                 requireActivity().findViewById(R.id.main_bottomnavigation_bnb)
             if (bool == true) {
@@ -67,10 +68,11 @@ abstract class BaseFragment<T : ViewDataBinding>(
         toolbar: Toolbar,
         menu: Int?,
         backbutton: Boolean,
-        title: String?
+        title: String?,
     ) {
         // 툴바, 툴바 검색 기록 레이아웃, 툴바 메뉴 연결
         baseToolbar = toolbar
+        baseToolbar.title
         // 툴바 메뉴 추가
         if (menu != null) baseToolbar.inflateMenu(menu)
         // 뒤로가기 버튼
@@ -100,7 +102,7 @@ abstract class BaseFragment<T : ViewDataBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             savedatainit()
         }
         backpress()
