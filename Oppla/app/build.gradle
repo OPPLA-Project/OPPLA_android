@@ -38,10 +38,20 @@ android {
 }
 
 dependencies {
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //okHttp3
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
     // circleimageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // kakao mapview
+//    implementation files('libs/libDaumMapAndroid.jar')
+    api files('libs/libDaumMapAndroid.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
     // workmanager

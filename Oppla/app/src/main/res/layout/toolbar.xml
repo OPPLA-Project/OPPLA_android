@@ -7,4 +7,14 @@
     android:gravity="center_vertical"
     app:contentInsetStartWithNavigation="0dp">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_textview_title"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textColor="#323232"
+        />
+
 </androidx.appcompat.widget.Toolbar>
