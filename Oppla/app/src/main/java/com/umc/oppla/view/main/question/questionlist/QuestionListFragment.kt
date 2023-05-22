@@ -1,5 +1,6 @@
 package com.umc.oppla.view.main.question.questionlist
 
+import android.view.View
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.oppla.R
@@ -18,6 +19,12 @@ class QuestionListFragment :
     }
 
     private fun initRecyclerView() {
+        binding.apply {
+            initAppbar(questionlistToolbar.toolbarToolbar, null, false, null)
+            questionlistToolbar.toolbarTextviewTitle.visibility = View.VISIBLE
+            questionlistToolbar.toolbarTextviewTitle.text = "내가 받은 질문 목록"
+        }
+
         questionlistadapter =
             QuestionListAdapter(object : QuestionListAdapter.onItemQuestionDetailClickInterface {
                 override fun onItemQuestionDetailClick(id: Int, position: Int) {

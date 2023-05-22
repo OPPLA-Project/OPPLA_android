@@ -1,5 +1,6 @@
 package com.umc.oppla.view.main.answer.answerlist
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseFragment
@@ -12,7 +13,13 @@ class AnswerListFragment : BaseFragment<FragmentAnswerListBinding>(R.layout.frag
     private lateinit var answerListAdapter: AnswerListAdapter
 
     override fun init() {
+        binding.apply {
+            initAppbar(answerlistToolbar.toolbarToolbar, null, false, null)
+            answerlistToolbar.toolbarTextviewTitle.visibility = View.VISIBLE
+            answerlistToolbar.toolbarTextviewTitle.text = "내가 받은 답변 목록"
+        }
         initRecyclerView()
+
         binding.answerlistTextviewSort.setOnClickListener {
 
         }

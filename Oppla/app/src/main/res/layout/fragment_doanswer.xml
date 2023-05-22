@@ -9,8 +9,9 @@
         android:orientation="vertical"
         tools:context=".view.main.question.DoanswerFragment">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/doanswer_toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"

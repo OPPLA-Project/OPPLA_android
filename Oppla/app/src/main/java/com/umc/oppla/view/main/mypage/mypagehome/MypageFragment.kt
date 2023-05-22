@@ -1,60 +1,62 @@
 package com.umc.oppla.view.main.mypage.mypagehome
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.umc.oppla.R
+import com.umc.oppla.base.BaseFragment
+import com.umc.oppla.databinding.FragmentMypageBinding
+import com.umc.oppla.view.main.mypage.annoucement.AnnouncementFragment
+import com.umc.oppla.view.main.mypage.history.HistoryFragment
+import com.umc.oppla.view.main.mypage.inquiry.InquiryFragment
+import com.umc.oppla.view.main.mypage.profile.ProfileFragment
+import com.umc.oppla.view.main.mypage.setting.SettingFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MypageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
+    override fun init() {
+        binding.apply {
+            initAppbar(mypageToolbar.toolbarToolbar, null, false, null)
+            mypageToolbar.toolbarTextviewTitle.visibility = View.VISIBLE
+            mypageToolbar.toolbarTextviewTitle.text = "마이페이지"
+        }
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MypageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MypageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+        binding.mypageTextviewSetting.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.mypageblank_layout, SettingFragment(), "running")
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
+        }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        binding.mypageTextviewProfile.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.mypageblank_layout, ProfileFragment(), "running")
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
+        }
+
+        binding.mypageTextviewHistory.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.mypageblank_layout, HistoryFragment(), "running")
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
+        }
+
+        binding.mypageTextviewAnnouncement.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.mypageblank_layout, AnnouncementFragment(), "running")
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
+        }
+
+        binding.mypageTextviewInquiry.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.mypageblank_layout, InquiryFragment(), "running")
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypage, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MypageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MypageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
