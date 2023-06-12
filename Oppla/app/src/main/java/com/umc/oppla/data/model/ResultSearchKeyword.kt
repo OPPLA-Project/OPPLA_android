@@ -1,4 +1,4 @@
-package com.umc.oppla.data.remote.model
+package com.umc.oppla.data.model
 
 data class ResultSearchKeyword(
     var documents: List<Document?>? = null,

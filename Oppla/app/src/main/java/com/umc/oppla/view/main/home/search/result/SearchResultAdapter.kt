@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.oppla.data.remote.model.Document
+import com.umc.oppla.data.model.Document
 import com.umc.oppla.databinding.ItemSearchresultlistBinding
 
 class SearchResultAdapter(clicklistener: onItemSearchResultClickInterface) :
