@@ -8,13 +8,12 @@
     app:contentInsetStartWithNavigation="0dp">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/toolbar_textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar_textview_title"
-        android:textSize="16sp"
         android:layout_gravity="center"
-        android:visibility="gone"
         android:textColor="#323232"
-        />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 </androidx.appcompat.widget.Toolbar>

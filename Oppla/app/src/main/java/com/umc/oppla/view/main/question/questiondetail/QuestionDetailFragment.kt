@@ -15,6 +15,12 @@ import com.umc.oppla.view.main.question.doanswer.DoanswerFragment
 class QuestionDetailFragment :
     BaseFragment<FragmentQuestionDetailBinding>(R.layout.fragment_question_detail) {
     override fun init() {
+        binding.apply {
+            initAppbar(questiondetailToolbar.toolbarToolbar, null, true, null)
+            questiondetailToolbar.toolbarTextviewTitle.visibility = View.VISIBLE
+            questiondetailToolbar.toolbarTextviewTitle.text = "질문 상세 보기"
+        }
+
         binding.qustiondetailTextviewDoanswer.setOnClickListener {
             parentFragmentManager
                 .beginTransaction()

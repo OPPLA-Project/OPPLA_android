@@ -8,10 +8,9 @@
         android:orientation="vertical"
         tools:context=".view.main.answer.answerlist.AnswerListFragment">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/answerlist_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            layout="@layout/toolbar" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/answerlist_textview_sort"

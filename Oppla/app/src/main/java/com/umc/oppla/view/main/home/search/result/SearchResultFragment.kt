@@ -1,24 +1,14 @@
 package com.umc.oppla.view.main.home.search.result
 
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseFragment
-import com.umc.oppla.data.QuestionListDataTemp
 import com.umc.oppla.data.remote.MapService
-import com.umc.oppla.data.remote.model.ResultSearchKeyword
+import com.umc.oppla.data.model.ResultSearchKeyword
 import com.umc.oppla.databinding.FragmentSearchResultBinding
 import com.umc.oppla.view.main.MainActivity
-import com.umc.oppla.view.main.question.questiondetail.QuestionDetailFragment
-import com.umc.oppla.view.main.question.questionlist.NotificationAdapter
-import com.umc.oppla.view.main.question.questionlist.QuestionListAdapter
 import com.umc.oppla.viewmodel.LocationViewModel
 import com.umc.oppla.viewmodel.SearchViewModel
 import com.umc.oppla.widget.utils.Utils
@@ -66,7 +56,7 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>(R.layout.
     // 키워드 검색 함수
     private fun searchKeyword(keyword: String) {
         val retrofit = Retrofit.Builder() // Retrofit 구성
-            .baseUrl(Utils.BASE_URL)
+            .baseUrl(Utils.KAKAO_MAP_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val api = retrofit.create(MapService::class.java) // 통신 인터페이스를 객체로 생성

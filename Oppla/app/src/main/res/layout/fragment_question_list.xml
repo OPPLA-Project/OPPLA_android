@@ -10,8 +10,9 @@
         android:clickable="true"
         tools:context=".view.main.question.questionlist.QuestionListFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/qustionlist_toolbar"
+        <include
+            android:id="@+id/questionlist_toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
@@ -26,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/qustionlist_toolbar" />
+            app:layout_constraintTop_toBottomOf="@id/questionlist_toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

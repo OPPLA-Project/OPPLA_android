@@ -1,7 +1,7 @@
 package com.umc.oppla.data.remote
 
-import com.umc.oppla.data.remote.model.ResultSearchKeyword
-import com.umc.oppla.data.remote.model.ResultSearchLatLng
+import com.umc.oppla.data.model.ResultSearchKeyword
+import com.umc.oppla.data.model.ResultSearchLatLng
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

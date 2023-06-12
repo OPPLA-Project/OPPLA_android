@@ -5,18 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseFragment
 import com.umc.oppla.data.MarkerDataTemp
 import com.umc.oppla.data.remote.MapService
-import com.umc.oppla.data.remote.model.ResultSearchKeyword
-import com.umc.oppla.data.remote.model.ResultSearchLatLng
+import com.umc.oppla.data.model.ResultSearchLatLng
 import com.umc.oppla.databinding.FragmentMapBinding
 import com.umc.oppla.view.main.MainActivity
 import com.umc.oppla.view.main.home.doquestion.DoquestionFragment
@@ -342,7 +339,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(com.umc.oppla.R.layout.frag
     // 키워드 검색 함수
     private fun searchLatLng(lat:Double, lng:Double) {
         val retrofit = Retrofit.Builder() // Retrofit 구성
-            .baseUrl(Utils.BASE_URL)
+            .baseUrl(Utils.KAKAO_MAP_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val api = retrofit.create(MapService::class.java) // 통신 인터페이스를 객체로 생성

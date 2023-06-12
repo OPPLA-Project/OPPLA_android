@@ -4,7 +4,7 @@ import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.umc.oppla.data.remote.model.ResultSearchLatLng
+import com.umc.oppla.data.model.ResultSearchLatLng
 
 class LocationViewModel : ViewModel(){
 

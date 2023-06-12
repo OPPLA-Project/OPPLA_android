@@ -11,6 +11,11 @@ import com.umc.oppla.databinding.FragmentCheckanswerBinding
 
 class CheckanswerFragment : BaseFragment<FragmentCheckanswerBinding>(R.layout.fragment_checkanswer) {
     override fun init() {
+        binding.apply {
+            initAppbar(checkanswerToolbar.toolbarToolbar, null, true, null)
+            checkanswerToolbar.toolbarTextviewTitle.visibility = View.VISIBLE
+            checkanswerToolbar.toolbarTextviewTitle.text = "답변 확인하기"
+        }
 
     }
 
