@@ -13,6 +13,7 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseActivity
+import com.umc.oppla.data.local.DataStore
 import com.umc.oppla.databinding.ActivitySplashBinding
 import com.umc.oppla.view.login.LoginActivity
 import com.umc.oppla.view.main.MainActivity

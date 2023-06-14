@@ -22,6 +22,7 @@
             android:layout_height="56dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -49,9 +50,11 @@
                     android:background="@android:color/transparent"
                     android:hint="검색어를 입력하세요."
                     android:imeOptions="actionDone"
-                    android:text="@={searchvm._searchword_data}"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:text="@={searchvm._searchword_data}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/search_imageview_searchordelete"
@@ -71,7 +74,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_layout_toolbar"/>
+            app:layout_constraintTop_toBottomOf="@id/search_layout_toolbar">
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

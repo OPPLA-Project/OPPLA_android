@@ -29,8 +29,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     lateinit var loginViewModel: LoginViewModel
 
     override fun init() {
-        val loginService = ApiClient.retrofit(ApplicationClass().getDataStore()).create(LoginService::class.java)
-        val loginRepository = LoginRepository(loginService, ApplicationClass().getDataStore())
+        val loginService = ApiClient.retrofit((application as ApplicationClass).getDataStore()).create(LoginService::class.java)
+        val loginRepository = LoginRepository(loginService, (application as ApplicationClass).getDataStore())
         val loginViewModelFactory = LoginViewModelFactory(loginRepository)
 
         loginViewModel =

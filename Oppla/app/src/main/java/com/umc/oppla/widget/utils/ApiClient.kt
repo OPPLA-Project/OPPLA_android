@@ -7,6 +7,7 @@ import com.umc.oppla.data.local.DataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,7 +41,7 @@ object ApiClient {
     class AppInterceptor(private val dataStore: DataStore) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
             CoroutineScope(Dispatchers.Main).launch {
-                jwtToken = dataStore.getToken().first()
+                jwtToken = dataStore.getToken().firstOrNull()
             }
 
             val newRequest = request().newBuilder()

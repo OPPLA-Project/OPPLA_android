@@ -11,7 +11,7 @@ import com.umc.oppla.widget.utils.NetworkResult
 import kotlinx.coroutines.launch
 
 class LoginViewModel constructor(
-    private val loginRepository: LoginRepository,
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     private var _jwt_data = MutableLiveData<NetworkResult<AuthResponse>>()

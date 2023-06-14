@@ -1,6 +1,7 @@
 package com.umc.oppla.view.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -25,18 +26,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import com.kakao.util.maps.helper.Utility
+import com.umc.oppla.ApplicationClass
 import com.umc.oppla.R
 import com.umc.oppla.base.BaseActivity
+import com.umc.oppla.data.remote.LoginService
 import com.umc.oppla.databinding.ActivityMainBinding
+import com.umc.oppla.repository.LoginRepository
+import com.umc.oppla.repository.SearchRepository
 import com.umc.oppla.view.main.answer.AnswerBlankFragment
 import com.umc.oppla.view.main.home.HomeBlankFragment
 import com.umc.oppla.view.main.mypage.MypageBlankFragment
 import com.umc.oppla.view.main.question.QuestionBlankFragment
 import com.umc.oppla.viewmodel.LocationViewModel
+import com.umc.oppla.viewmodel.LoginViewModel
 import com.umc.oppla.viewmodel.SearchViewModel
+import com.umc.oppla.viewmodel.factory.LoginViewModelFactory
+import com.umc.oppla.viewmodel.factory.SearchViewModelFactory
 import com.umc.oppla.widget.LocationManager
 import com.umc.oppla.widget.LocationUpdateWorker
 import com.umc.oppla.widget.SharedPreferencesManager
+import com.umc.oppla.widget.utils.ApiClient
 import com.umc.oppla.widget.utils.Utils.KEY_PERMISSION_DATA
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -75,8 +84,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
 
     override fun init() {
+        val searchRepository = SearchRepository((application as ApplicationClass).getDataStore())
+        val searchViewModelFactory = SearchViewModelFactory(searchRepository)
+
+        searchViewModel =
+            ViewModelProvider(this, searchViewModelFactory)[SearchViewModel::class.java]
         locationViewModel = ViewModelProvider(this@MainActivity).get(LocationViewModel::class.java)
-        searchViewModel = ViewModelProvider(this@MainActivity).get(SearchViewModel::class.java)
+
         sharedPreferencesmanager = SharedPreferencesManager(this)
 
         // 권한 묻기
@@ -273,8 +287,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             .enqueueUniquePeriodicWork("work", ExistingPeriodicWorkPolicy.REPLACE, workRequest)
 
         LocationUpdateWorker.MyLocation.observe(this, Observer {
-            if(it!=null){
-                Log.d("whatisthis","백그라운드 데이터 갱신됨 $it")
+            if (it != null) {
+                Log.d("whatisthis", "백그라운드 데이터 갱신됨 $it")
 
                 locationViewModel.setMyLocation(Pair(it.latitude, it.longitude))
             }
